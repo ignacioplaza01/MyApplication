@@ -6,8 +6,8 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.Toast;
 
+import com.example.myapplication.modelo.Alumno;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
@@ -42,21 +42,21 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void registrar(){
-        registrar = (Button) findViewById(R.id.registrar);
+        registrar = (Button) findViewById(R.id.registra);
         registrar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 String nombre = etNombre.getText().toString();
                 String apellido = etApellido.getText().toString();
-                String edad = etEdad.getText().toString();
+                int edad = Integer.parseInt(etEdad.getText().toString());
                 String key = UUID.randomUUID().toString();
 
-                FirebaseDatabase database = FirebaseDatabase.getInstance();
-                DatabaseReference myRef = database.getReference("alumno").child(key);
+                Alumno a = new Alumno(nombre,apellido,edad);
 
-                myRef.child("nombre").setValue(nombre);
-                myRef.child("apellido").setValue(apellido);
-                myRef.child("edad").setValue(edad);
+                FirebaseDatabase database = FirebaseDatabase.getInstance();
+                DatabaseReference myRef = database.getReference("alumno");
+
+                myRef.setValue(a);
             }
         });
     }
